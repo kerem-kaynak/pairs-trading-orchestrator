@@ -11,12 +11,6 @@ steps:
          '--location', 'europe-west4',
          '--source', 'dags']
 
-# Update Python packages
-- name: 'gcr.io/cloud-builders/gcloud'
-  args: ['composer', 'environments', 'update', 'pairs-trading-orchestrator',
-         '--location', 'europe-west4',
-         '--update-pypi-packages-from-file', 'requirements.txt']
-
 # Update environment variables
 - name: 'gcr.io/cloud-builders/gcloud'
   args: ['composer', 'environments', 'update', 'pairs-trading-orchestrator',

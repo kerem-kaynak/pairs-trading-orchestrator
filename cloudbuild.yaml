@@ -1,17 +1,30 @@
+# steps:
+# # Install dependencies
+# - name: 'python:3.9'
+#   entrypoint: pip
+#   args: ['install', '-r', 'requirements.txt', '--user']
+
+# # Deploy DAGs
+# - name: 'gcr.io/cloud-builders/gcloud'
+#   args: ['composer', 'environments', 'storage', 'dags', 'import',
+#          '--environment', 'pairs-trading-orchestrator',
+#          '--location', 'europe-west4',
+#          '--source', 'dags']
+
+# # Update environment variables
+# - name: 'gcr.io/cloud-builders/gcloud'
+#   args: ['composer', 'environments', 'update', 'pairs-trading-orchestrator',
+#          '--location', 'europe-west4',
+#          '--update-env-variables', 'AIRFLOW_VAR_POLYGON_API_KEY=${_POLYGON_API_KEY}']
+
+# substitutions:
+#   _POLYGON_API_KEY: 'default_value_replace_me'
+
+# options:
+#   logging: CLOUD_LOGGING_ONLY
+
+
 steps:
-# Install dependencies
-- name: 'python:3.9'
-  entrypoint: pip
-  args: ['install', '-r', 'requirements.txt', '--user']
-
-# Deploy DAGs
-- name: 'gcr.io/cloud-builders/gcloud'
-  args: ['composer', 'environments', 'storage', 'dags', 'import',
-         '--environment', 'pairs-trading-orchestrator',
-         '--location', 'europe-west4',
-         '--source', 'dags']
-
-# Update environment variables
 - name: 'gcr.io/cloud-builders/gcloud'
   args: ['composer', 'environments', 'update', 'pairs-trading-orchestrator',
          '--location', 'europe-west4',

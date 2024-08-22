@@ -32,6 +32,7 @@ def hello_world_dag():
         # Pendulum makes time arithmetic easy
         tomorrow = current_time.add(days=1)
         print("This time tomorrow:", tomorrow)
+        print("this is new log for test")
 
     log_info(print_hello())
 

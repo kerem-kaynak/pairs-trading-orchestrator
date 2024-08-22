@@ -8,8 +8,14 @@ steps:
   - |
     DAGS_BUCKET=$(gcloud composer environments describe ${_COMPOSER_ENV} \
       --location ${_LOCATION} \
-      --format="get(config.dagGcsPrefix)")
-    if gsutil -m rsync -d -r ./dags gs://$${DAGS_BUCKET}; then
+      --format="value(config.dagGcsPrefix)")
+    
+    # Extract just the bucket name if it's a full GCS path
+    BUCKET_NAME=$(echo $DAGS_BUCKET | sed 's|gs://\([^/]*\).*|\1|')
+    
+    echo "Deploying DAGs to bucket: $BUCKET_NAME"
+    
+    if gsutil -m rsync -d -r ./dags gs://$BUCKET_NAME/dags; then
       echo "Successfully deployed DAGs to Composer"
     else
       echo "Failed to deploy DAGs to Composer"

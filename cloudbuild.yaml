@@ -1,23 +1,14 @@
 steps:
-# Deploy DAGs to Composer
 - name: 'gcr.io/cloud-builders/gcloud'
-  id: 'Deploy DAGs'
-  entrypoint: 'bash'
   args:
-  - '-c'
-  - |
-    DAGS_BUCKET=$(gcloud composer environments describe ${_COMPOSER_ENV} \
-      --location ${_LOCATION} \
-      --format="value(config.dagGcsPrefix)")
-    
-    echo "Deploying DAGs to: $DAGS_BUCKET"
-    
-    if gsutil -m rsync -d -r ./dags $DAGS_BUCKET; then
-      echo "Successfully deployed DAGs to Composer"
-    else
-      echo "Failed to deploy DAGs to Composer"
-      exit 1
-    fi
+  - composer
+  - environments
+  - storage
+  - dags
+  - import
+  - --environment=${_COMPOSER_ENV}
+  - --location=${_LOCATION}
+  - --source=dags
 
 substitutions:
   _COMPOSER_ENV: 'pairs-trading-orchestrator'

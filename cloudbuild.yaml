@@ -10,12 +10,9 @@ steps:
       --location ${_LOCATION} \
       --format="value(config.dagGcsPrefix)")
     
-    # Extract just the bucket name if it's a full GCS path
-    BUCKET_NAME=$(echo $DAGS_BUCKET | sed 's|gs://\([^/]*\).*|\1|')
+    echo "Deploying DAGs to: $DAGS_BUCKET"
     
-    echo "Deploying DAGs to bucket: $BUCKET_NAME"
-    
-    if gsutil -m rsync -d -r ./dags gs://$BUCKET_NAME/dags; then
+    if gsutil -m rsync -d -r ./dags $DAGS_BUCKET; then
       echo "Successfully deployed DAGs to Composer"
     else
       echo "Failed to deploy DAGs to Composer"

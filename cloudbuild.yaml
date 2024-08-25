@@ -9,14 +9,7 @@ steps:
   - --environment=${_COMPOSER_ENV}
   - --location=${_LOCATION}
   - --source=dags
-- name: 'gcr.io/cloud-builders/gcloud'
-  args:
-  - composer
-  - environments
-  - update
-  - ${_COMPOSER_ENV}
-  - --location=${_LOCATION}
-
+  
 substitutions:
   _COMPOSER_ENV: 'pairs-trading-orchestrator'
   _LOCATION: 'europe-west4'

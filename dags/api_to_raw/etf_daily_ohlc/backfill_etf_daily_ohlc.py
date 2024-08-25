@@ -2,8 +2,8 @@ from airflow.decorators import dag, task
 from dags.api_to_raw.etf_daily_ohlc.constants import ETF_AGGREGATES_COLUMN_MAP, TARGET_SCHEMA, TARGET_TABLE, UPDATE_COLUMNS
 import pendulum
 from dags.api_to_raw.etf_daily_ohlc.utils import get_aggregates, get_all_etf_tickers
-from plugins.database import upsert_values
-from plugins.logger import logger
+from dags.utils.database import upsert_values
+from dags.utils.logger import logger
 
 @task
 def polygon_to_postgres():

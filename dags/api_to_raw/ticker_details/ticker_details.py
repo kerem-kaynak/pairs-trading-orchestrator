@@ -2,8 +2,8 @@ from airflow.decorators import dag, task
 from dags.api_to_raw.ticker_details.constants import TARGET_SCHEMA, TARGET_TABLE, UPDATE_COLUMNS
 import pendulum
 from dags.api_to_raw.ticker_details.utils import get_ticker_details
-from plugins.database import run_query, upsert_values
-from plugins.logger import logger
+from dags.utils.database import run_query, upsert_values
+from dags.utils.logger import logger
 
 SCHEDULE_INTERVAL = "0 9 * * 1"
 

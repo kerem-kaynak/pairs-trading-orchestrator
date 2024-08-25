@@ -2,7 +2,7 @@ import pendulum
 import requests
 import os
 from typing import Any, Dict, List, Optional
-from plugins.logger import logger
+from dags.utils.logger import logger
 
 
 POLYGON_API_KEY = os.environ.get("POLYGON_API_KEY")

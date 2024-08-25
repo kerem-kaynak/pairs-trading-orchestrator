@@ -8,22 +8,15 @@ import pendulum
 from dags.utils.database import run_query
 from dags.utils.logger import logger
 
-default_args = {
-    'owner': 'airflow',
-    'depends_on_past': False,
-    'start_date': days_ago(1),
-    'email_on_failure': False,
-    'email_on_retry': False,
-    'retries': 1,
-}
+
+SCHEDULE_INTERVAL = '0 */6 * * *'
 
 @dag(
-    'orchestrator_health_check',
-    default_args=default_args,
-    description='Advanced Airflow health check',
-    schedule_interval='0 */6 * * *',  # Run every 6 hours
+    schedule_interval=SCHEDULE_INTERVAL,
+    start_date=pendulum.datetime(2023, 1, 1, tz="UTC"),
     catchup=False,
-    is_paused_upon_creation=True
+    is_paused_upon_creation=True,
+    tags=["orchestrator", "health"]
 )
 def orchestrator_health_check():
 

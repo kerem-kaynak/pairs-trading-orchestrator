@@ -4,8 +4,8 @@ from airflow.utils.dates import days_ago
 from airflow.models import DagBag, DagRun, TaskInstance
 from airflow.utils.state import State
 from airflow.utils.session import create_session
-from datetime import datetime, timedelta
-from dags.utils.database import get_connection, run_query
+import pendulum
+from dags.utils.database import run_query
 from dags.utils.logger import logger
 
 default_args = {
@@ -47,9 +47,10 @@ def orchestrator_health_check():
     @task
     def check_failed_tasks():
         with create_session() as session:
+            one_day_ago = pendulum.now('UTC').subtract(days=1)
             failed_tasks = session.query(TaskInstance).filter(
                 TaskInstance.state == State.FAILED,
-                TaskInstance.end_date >= datetime.now() - timedelta(days=1)
+                TaskInstance.end_date >= one_day_ago
             ).count()
         
         if failed_tasks > 0:
@@ -60,9 +61,10 @@ def orchestrator_health_check():
     @task
     def check_dag_runs():
         with create_session() as session:
+            six_hours_ago = pendulum.now('UTC').subtract(hours=6)
             running_dags = session.query(DagRun).filter(
                 DagRun.state == State.RUNNING,
-                DagRun.start_date <= datetime.now() - timedelta(hours=6)
+                DagRun.start_date <= six_hours_ago
             ).count()
         
         if running_dags > 0:

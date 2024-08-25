@@ -1,23 +1,18 @@
 steps:
-  - name: 'python'
-    entrypoint: 'bash'
-    args:
-      - '-c'
-      - |
-        pip install -r requirements.txt
-
-  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    entrypoint: 'bash'
-    args:
-      - '-c'
-      - |
-        BUCKET=$(gcloud composer environments describe ${_COMPOSER_ENV} --location ${_LOCATION} --format="get(config.dagGcsPrefix)")
-        gsutil -m cp -r dags/* ${BUCKET}/dags/
-        gsutil -m cp -r plugins/* ${BUCKET}/plugins/
+- name: 'gcr.io/cloud-builders/gcloud'
+  args:
+  - composer
+  - environments
+  - storage
+  - dags
+  - import
+  - --environment=${_COMPOSER_ENV}
+  - --location=${_LOCATION}
+  - --source=dags
 
 substitutions:
   _COMPOSER_ENV: 'pairs-trading-orchestrator'
   _LOCATION: 'europe-west4'
-
+  
 options:
   logging: CLOUD_LOGGING_ONLY

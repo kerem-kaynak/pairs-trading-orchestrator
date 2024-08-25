@@ -1,43 +1,20 @@
-steps:
-- name: 'gcr.io/cloud-builders/gcloud'
-  args:
-  - composer
-  - environments
-  - storage
-  - dags
-  - import
-  - --environment=${_COMPOSER_ENV}
-  - --location=${_LOCATION}
-  - --source=dags
+  # Step 2: Install dependencies (if any)
+  - name: 'python'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        pip install -r requirements.txt
 
-- name: 'gcr.io/cloud-builders/gcloud'
-  args:
-  - composer
-  - environments
-  - storage
-  - plugins
-  - import
-  - --environment=${_COMPOSER_ENV}
-  - --location=${_LOCATION}
-  - --source=plugins
-
-- name: 'gcr.io/cloud-builders/gcloud'
-  args:
-  - composer
-  - environments
-  - update
-  - --environment=${_COMPOSER_ENV}
-  - --location=${_LOCATION}
-  - --update-pypi-packages-from-file=requirements.txt
-
-- name: 'gcr.io/cloud-builders/gcloud'
-  args:
-  - composer
-  - environments
-  - restart
-  - workers
-  - ${_COMPOSER_ENV}
-  - --location=${_LOCATION}
+  # Step 3: Upload DAGs to Cloud Composer bucket
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        BUCKET=$(gcloud composer environments describe $COMPOSER_ENV --location $LOCATION --format="get(config.dagGcsPrefix)")
+        gsutil -m cp -r dags/* $BUCKET/dags/
+        gsutil -m cp -r plugins/* $BUCKET/plugins/
 
 substitutions:
   _COMPOSER_ENV: 'pairs-trading-orchestrator'

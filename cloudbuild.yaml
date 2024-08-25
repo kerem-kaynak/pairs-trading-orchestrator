@@ -16,8 +16,7 @@ steps:
   args:
   - composer
   - environments
-  - restart
-  - workers
+  - update
   - ${_COMPOSER_ENV}
   - --location=${_LOCATION}
 

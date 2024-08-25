@@ -31,7 +31,7 @@ steps:
   - --environment=${_COMPOSER_ENV}
   - --location=${_LOCATION}
   - --source=requirements.txt
-  - --destination-path=/
+  - --destination=requirements.txt
 
 - name: 'gcr.io/cloud-builders/gcloud'
   entrypoint: 'bash'

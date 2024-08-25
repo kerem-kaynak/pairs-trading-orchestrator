@@ -8,7 +8,18 @@ steps:
   - import
   - --environment=${_COMPOSER_ENV}
   - --location=${_LOCATION}
-  - --source=.
+  - --source=dags
+
+- name: 'gcr.io/cloud-builders/gcloud'
+  args:
+  - composer
+  - environments
+  - storage
+  - plugins
+  - import
+  - --environment=${_COMPOSER_ENV}
+  - --location=${_LOCATION}
+  - --source=plugins
 
 substitutions:
   _COMPOSER_ENV: 'pairs-trading-orchestrator'

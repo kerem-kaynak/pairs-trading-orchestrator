@@ -1,0 +1,22 @@
+# Ignore .env file
+.env
+
+# Ignore git and cache files
+.git
+.gitignore
+#!include:.gitignore
+
+# Ignore local development files
+venv/
+*.pyc
+__pycache__/
+
+# Ignore any local configuration files
+*.cfg
+*.conf
+
+# Ignore any logs
+*.log
+
+# Ignore MacOS system files
+.DS_Store

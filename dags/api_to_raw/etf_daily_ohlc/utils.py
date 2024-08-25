@@ -8,7 +8,6 @@ from dags.utils.logger import logger
 POLYGON_API_KEY = os.environ.get("POLYGON_API_KEY")
 
 def get_all_etf_tickers() -> List[str]:
-    logger.info(POLYGON_API_KEY)
     req_url = f"https://api.polygon.io/v3/reference/tickers?type=ETF&market=stocks&exchange=XNAS&active=true&?date=2023-01-01&limit=1000&apiKey={POLYGON_API_KEY}"
     try:
         response = requests.get(req_url)

@@ -18,7 +18,7 @@ default_args = {
 }
 
 @dag(
-    'advanced_airflow_health_check',
+    'orchestrator_health_check',
     default_args=default_args,
     description='Advanced Airflow health check',
     schedule_interval='0 */6 * * *',  # Run every 6 hours

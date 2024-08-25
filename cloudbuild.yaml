@@ -16,7 +16,6 @@ steps:
   - update
   - ${_COMPOSER_ENV}
   - --location=${_LOCATION}
-  - --update-pypi-packages-from-file=requirements.txt
 
 substitutions:
   _COMPOSER_ENV: 'pairs-trading-orchestrator'

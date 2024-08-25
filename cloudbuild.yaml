@@ -11,7 +11,7 @@ steps:
     args:
       - '-c'
       - |
-        BUCKET=$(gcloud composer environments describe $COMPOSER_ENV --location $LOCATION --format="get(config.dagGcsPrefix)")
+        BUCKET=$(gcloud composer environments describe ${_COMPOSER_ENV} --location ${_LOCATION} --format="get(config.dagGcsPrefix)")
         gsutil -m cp -r dags/* $BUCKET/dags/
         gsutil -m cp -r plugins/* $BUCKET/plugins/
 

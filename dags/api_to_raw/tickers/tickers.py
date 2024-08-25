@@ -2,8 +2,8 @@ from airflow.decorators import dag, task
 from api_to_raw.tickers.constants import TARGET_SCHEMA, TARGET_TABLE, UPDATE_COLUMNS
 import pendulum
 from api_to_raw.tickers.utils import get_etf_tickers
-from utils.database import run_query, upsert_values
-from utils.logger import logger
+from plugins.database import run_query, upsert_values
+from plugins.logger import logger
 
 SCHEDULE_INTERVAL = "0 9 * * *"
 

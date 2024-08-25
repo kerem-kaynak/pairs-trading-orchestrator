@@ -1,7 +1,7 @@
 import requests
 import os
 from typing import Any, Dict, List, Optional
-from utils.logger import logger
+from plugins.logger import logger
 
 
 POLYGON_API_KEY = os.environ.get("POLYGON_API_KEY")

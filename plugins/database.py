@@ -2,7 +2,7 @@ import os
 from typing import List, Dict, Any, Optional, Union
 from google.cloud.sql.connector import Connector
 import pg8000
-from utils.logger import logger
+from plugins.logger import logger
 
 DB_USER: Optional[str] = os.environ.get('DB_USER')
 DB_PASS: Optional[str] = os.environ.get('DB_PASS')

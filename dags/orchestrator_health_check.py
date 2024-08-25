@@ -5,8 +5,8 @@ from airflow.models import DagBag, DagRun, TaskInstance
 from airflow.utils.state import State
 from airflow.utils.session import create_session
 from datetime import datetime, timedelta
-from utils.database import get_connection
-from utils.logger import logger
+from plugins.database import get_connection
+from plugins.logger import logger
 
 default_args = {
     'owner': 'airflow',

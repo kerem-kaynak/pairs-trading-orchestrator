@@ -2,8 +2,8 @@ from airflow.decorators import dag, task
 from api_to_raw.etf_daily_ohlc.constants import ETF_AGGREGATES_COLUMN_MAP, TARGET_SCHEMA, TARGET_TABLE, UPDATE_COLUMNS
 import pendulum
 from api_to_raw.etf_daily_ohlc.utils import get_all_etf_tickers, get_previous_close_ohlc
-from utils.database import upsert_values
-from utils.logger import logger
+from plugins.database import upsert_values
+from plugins.logger import logger
 
 SCHEDULE_INTERVAL = "0 11 * * *"
 

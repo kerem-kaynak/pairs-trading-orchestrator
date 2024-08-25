@@ -1,4 +1,7 @@
 steps:
+- name: python
+  entrypoint: pip
+  args: ["install", "-r", "requirements.txt", "--user"]
 - name: 'gcr.io/cloud-builders/gcloud'
   args:
   - composer
@@ -13,6 +16,6 @@ steps:
 substitutions:
   _COMPOSER_ENV: 'pairs-trading-orchestrator'
   _LOCATION: 'europe-west4'
-  
+
 options:
   logging: CLOUD_LOGGING_ONLY

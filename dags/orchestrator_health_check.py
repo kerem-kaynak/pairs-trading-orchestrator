@@ -1,6 +1,5 @@
 from airflow.decorators import dag, task
 from airflow.operators.bash import BashOperator
-from airflow.utils.dates import days_ago
 from airflow.models import DagBag, DagRun, TaskInstance
 from airflow.utils.state import State
 from airflow.utils.session import create_session
@@ -63,11 +62,6 @@ def orchestrator_health_check():
             logger.error(f"There are {running_dags} DAGs running for more than 6 hours")
         logger.info("No long-running DAGs detected")
 
-    check_disk_space = BashOperator(
-        task_id='check_disk_space',
-        bash_command='df -h | awk \'$NF=="/"{printf "Disk Usage: %d/%dGB (%s)\n", $3,$2,$5}\'',
-    )
-
     check_airflow_logs = BashOperator(
         task_id='check_airflow_logs',
         bash_command='ls -lh $(dirname $(airflow info | grep "Airflow Home" | awk \'{print $4}\'))/logs | awk \'{print "Airflow logs size: " $5}\'',
@@ -78,6 +72,6 @@ def orchestrator_health_check():
         bash_command='ps aux | grep "airflow scheduler" | grep -v grep || echo "Scheduler not running"',
     )
 
-    check_db_connection() >> check_dag_integrity() >> check_failed_tasks() >> check_dag_runs() >> [check_disk_space, check_airflow_logs, check_scheduler]
+    check_db_connection() >> check_dag_integrity() >> check_failed_tasks() >> check_dag_runs() >> [check_airflow_logs, check_scheduler]
 
 dag = orchestrator_health_check()

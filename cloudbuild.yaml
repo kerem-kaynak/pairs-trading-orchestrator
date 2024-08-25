@@ -25,22 +25,10 @@ steps:
   args:
   - composer
   - environments
-  - storage
-  - data
-  - import
+  - update
   - --environment=${_COMPOSER_ENV}
   - --location=${_LOCATION}
-  - --source=requirements.txt
-  - --destination=requirements.txt
-
-- name: 'gcr.io/cloud-builders/gcloud'
-  entrypoint: 'bash'
-  args:
-  - '-c'
-  - |
-    gcloud composer environments run ${_COMPOSER_ENV} \
-      --location=${_LOCATION} \
-      pip install -r /home/airflow/gcs/data/requirements.txt
+  - --update-pypi-packages-from-file=requirements.txt
 
 - name: 'gcr.io/cloud-builders/gcloud'
   args:

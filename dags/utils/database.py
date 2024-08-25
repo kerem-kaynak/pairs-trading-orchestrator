@@ -85,7 +85,7 @@ def upsert_values(data: List[Dict[str, Any]], columns: List[str], table: str, sc
         logger.error(f"Error upserting data: {str(e)}")
         logger.error(f"Error type: {type(e).__name__}")
         logger.error(f"Error details: {e.args}")
-        logger.exception("Full traceback:")
+        raise
     finally:
         if cur:
             cur.close()
@@ -109,7 +109,7 @@ def execute_sql(filepath: str) -> None:
     except Exception as e:
         conn.rollback()
         logger.error(f"Error executing SQL: {str(e)}")
-        logger.exception("Full traceback:")
+        raise
     finally:
         conn.close()
 
@@ -141,7 +141,7 @@ def run_query(query: str) -> List[Dict[str, Any]]:
     except Exception as e:
         logger.error(f"Error executing query: {str(e)}")
         logger.error(f"Query was: {query}")
-        return []
+        raise
     finally:
         if cur:
             cur.close()

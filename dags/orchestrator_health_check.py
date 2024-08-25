@@ -5,7 +5,7 @@ from airflow.models import DagBag, DagRun, TaskInstance
 from airflow.utils.state import State
 from airflow.utils.session import create_session
 from datetime import datetime, timedelta
-from dags.utils.database import get_connection
+from dags.utils.database import get_connection, run_query
 from dags.utils.logger import logger
 
 default_args = {
@@ -29,9 +29,7 @@ def orchestrator_health_check():
     @task
     def check_db_connection():
         try:
-            conn = get_connection()
-            with conn.cursor() as cur:
-                cur.execute('SELECT 1')
+            run_query('SELECT 1')
             logger.info("Database connection successful")
         except Exception as e:
             logger.error(f"Database connection failed: {str(e)}")

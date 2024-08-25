@@ -21,6 +21,24 @@ steps:
   - --location=${_LOCATION}
   - --source=plugins
 
+- name: 'gcr.io/cloud-builders/gcloud'
+  args:
+  - composer
+  - environments
+  - run
+  - ${_COMPOSER_ENV}
+  - --location=${_LOCATION}
+  - --update-pypi-packages-from-file=requirements.txt
+
+- name: 'gcr.io/cloud-builders/gcloud'
+  args:
+  - composer
+  - environments
+  - restart
+  - workers
+  - ${_COMPOSER_ENV}
+  - --location=${_LOCATION}
+
 substitutions:
   _COMPOSER_ENV: 'pairs-trading-orchestrator'
   _LOCATION: 'europe-west4'

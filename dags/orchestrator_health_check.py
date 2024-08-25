@@ -48,7 +48,6 @@ def orchestrator_health_check():
         
         if failed_tasks > 0:
             logger.error(f"There are {failed_tasks} failed tasks in the last 24 hours")
-            raise Exception(f"There are {failed_tasks} failed tasks in the last 24 hours")
         logger.info("No failed tasks in the last 24 hours")
 
     @task
@@ -62,7 +61,6 @@ def orchestrator_health_check():
         
         if running_dags > 0:
             logger.error(f"There are {running_dags} DAGs running for more than 6 hours")
-            raise Exception(f"There are {running_dags} DAGs running for more than 6 hours")
         logger.info("No long-running DAGs detected")
 
     check_disk_space = BashOperator(

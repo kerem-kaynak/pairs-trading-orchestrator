@@ -1,7 +1,7 @@
 from airflow.decorators import dag, task
-from api_to_raw.ticker_news.constants import TARGET_SCHEMA, TARGET_TABLE, UPDATE_COLUMNS
+from dags.api_to_raw.ticker_news.constants import TARGET_SCHEMA, TARGET_TABLE, UPDATE_COLUMNS
 import pendulum
-from api_to_raw.ticker_news.utils import get_ticker_news
+from dags.api_to_raw.ticker_news.utils import get_ticker_news
 from plugins.database import run_query, upsert_values
 from plugins.logger import logger
 

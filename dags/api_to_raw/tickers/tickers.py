@@ -1,7 +1,7 @@
 from airflow.decorators import dag, task
-from api_to_raw.tickers.constants import TARGET_SCHEMA, TARGET_TABLE, UPDATE_COLUMNS
+from dags.api_to_raw.tickers.constants import TARGET_SCHEMA, TARGET_TABLE, UPDATE_COLUMNS
 import pendulum
-from api_to_raw.tickers.utils import get_etf_tickers
+from dags.api_to_raw.tickers.utils import get_etf_tickers
 from plugins.database import run_query, upsert_values
 from plugins.logger import logger
 

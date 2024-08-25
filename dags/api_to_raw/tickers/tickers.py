@@ -27,6 +27,7 @@ def tickers_polygon_to_postgres():
     schedule_interval=SCHEDULE_INTERVAL,
     start_date=pendulum.datetime(2023, 1, 1, tz="UTC"),
     catchup=False,
+    is_paused_upon_creation=True,
     tags=['etfs']
 )
 def tickers_api_to_raw():

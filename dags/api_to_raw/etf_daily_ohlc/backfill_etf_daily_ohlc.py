@@ -36,6 +36,7 @@ def polygon_to_postgres():
 @dag(
     start_date=pendulum.datetime(2023, 1, 1, tz="UTC"),
     catchup=False,
+    is_paused_upon_creation=True,
     tags=['etfs']
 )
 def backfill_etf_daily_ohlc_api_to_raw():

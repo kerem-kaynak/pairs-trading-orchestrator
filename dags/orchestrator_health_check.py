@@ -23,6 +23,7 @@ default_args = {
     description='Advanced Airflow health check',
     schedule_interval='0 */6 * * *',  # Run every 6 hours
     catchup=False,
+    is_paused_upon_creation=True
 )
 def orchestrator_health_check():
 

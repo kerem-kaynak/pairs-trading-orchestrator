@@ -8,7 +8,7 @@ steps:
   - import
   - --environment=${_COMPOSER_ENV}
   - --location=${_LOCATION}
-  - --source=dags
+  - --source=.
 
 substitutions:
   _COMPOSER_ENV: 'pairs-trading-orchestrator'

@@ -132,9 +132,15 @@ def run_query(query: str) -> List[Dict[str, Any]]:
         # Get column names
         columns = [desc[0] for desc in cur.description]
         
-        # Fetch all rows and convert to list of dictionaries
-        rows = cur.fetchall()
-        result = [dict(zip(columns, row)) for row in rows]
+        # Fetch all rows in batches
+        result = []
+        while True:
+            rows = cur.fetchmany(1000)  # Fetch 1000 rows at a time
+            if not rows:
+                logger.info(f"Fetched all batches.")
+                break
+            result.extend([dict(zip(columns, row)) for row in rows])
+            logger.info(f"Fetched {len(rows)} rows for current batch.")
         
         logger.info(f"Query executed successfully. Returned {len(result)} rows.")
         return result

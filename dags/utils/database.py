@@ -1,3 +1,5 @@
+from datetime import date
+from decimal import Decimal
 import os
 from typing import List, Dict, Any, Optional, Union
 from google.cloud.sql.connector import Connector
@@ -92,30 +94,32 @@ def upsert_values(data: List[Dict[str, Any]], columns: List[str], table: str, sc
         if conn:
             conn.close()
 
-def execute_sql(filepath: str) -> None:
+def execute_sql(query: str) -> None:
     """
-    Executes SQL from a file.
-    
-    :param filepath: Path to the SQL file
+    Executes a SQL query.
+
+    :param query: SQL query string to execute
     """
     conn = get_connection()
+    cur = None
     try:
-        with conn.cursor() as cur:
-            with open(filepath, 'r') as file:
-                sql_script: str = file.read()
-                cur.execute(sql_script)
+        cur = conn.cursor()
+        cur.execute(query)
         conn.commit()
-        logger.info(f"Successfully executed SQL from {filepath}")
+        logger.info("Successfully executed SQL query")
     except Exception as e:
         conn.rollback()
         logger.error(f"Error executing SQL: {str(e)}")
         raise
     finally:
-        conn.close()
+        if cur:
+            cur.close()
+        if conn:
+            conn.close()
 
 def run_query(query: str) -> List[Dict[str, Any]]:
     """
-    Runs a SQL query and returns the results as a list of dictionaries.
+    Runs a SQL query in batches and returns the results as a list of dictionaries.
 
     :param query: SQL query string
     :return: List of dictionaries, where each dictionary represents a row of the query result
@@ -153,3 +157,16 @@ def run_query(query: str) -> List[Dict[str, Any]]:
             cur.close()
         if conn:
             conn.close()
+
+def json_serialize(obj):
+    """
+    JSON serializer for objects not serializable by default
+
+    :param obj: Object to be serialized
+    :return: JSON serialized object
+    """
+    if isinstance(obj, Decimal):
+        return float(obj)
+    if isinstance(obj, date):
+        return obj.isoformat()
+    raise TypeError(f"Type {type(obj)} not serializable")

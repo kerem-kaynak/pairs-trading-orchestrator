@@ -1,5 +1,4 @@
-# QUANT_SERVICE_HOST = "https://pairs-trading-quant-service-a56kh2a5na-ez.a.run.app"
-QUANT_SERVICE_HOST = "http://localhost:8000"
+QUANT_SERVICE_HOST = "https://pairs-trading-quant-service-a56kh2a5na-ez.a.run.app"
 
 UPDATE_COLUMNS = [
     "ticker_1",

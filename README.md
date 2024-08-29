@@ -9,6 +9,8 @@ This repository is part of a project that aims to showcase the performance of a 
 - [Backend API](https://github.com/kerem-kaynak/pairs-trading-backend): Backend API serving data to the client.
 - [Frontend](https://github.com/kerem-kaynak/pairs-trading-frontend): Frontend application for web access.
 
+The research in the thesis leading to this project can be found [here](https://github.com/kerem-kaynak/pairs-trading-with-ml) with deeper explanations of the financial and statistical concepts.
+
 ## Pairs Trading Orchestrator
 
 This service is the main supplier of all data for the whole project. It interacts with a third party data provider to extract bulk data, transform it and load to the project database. There are also workflows to compute outputs of models hosted in the ML service and write them to the database for persistency.

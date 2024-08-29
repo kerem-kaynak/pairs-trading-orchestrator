@@ -23,7 +23,7 @@ def etf_daily_ohlc_silver_to_gold_task():
                 edo.date AS date,
                 edo.volume AS volume,
                 edo.volume_weighted_price AS volume_weighted_price
-            FROM silver.etf_daily_ohlc edo LEFT JOIN silver.ticker_details td ON edo.ticker = td.ticker WHERE edo.date >= {start_date};
+            FROM silver.etf_daily_ohlc edo LEFT JOIN silver.ticker_details td ON edo.ticker = td.ticker WHERE edo.date >= '{start_date}';
         """
         etf_daily_ohlc_data = run_query(query)
         logger.info(f"Sample record: {etf_daily_ohlc_data[0] if etf_daily_ohlc_data else 'No records'}")

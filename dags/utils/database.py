@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, datetime
 from decimal import Decimal
 import os
 from typing import List, Dict, Any, Optional, Union
@@ -20,7 +20,7 @@ def get_connection() -> pg8000.Connection:
         user=DB_USER,
         password=DB_PASS,
         db=DB_NAME,
-        timeout=1800  # Set a higher timeout, e.g., 5 minutes
+        timeout=1800
     )
     return conn
 
@@ -40,13 +40,11 @@ def upsert_values(data: List[Dict[str, Any]], columns: List[str], table: str, sc
     try:
         cur = conn.cursor()
         
-        # Prepare the conflict columns
         if isinstance(conflict_columns, str):
             conflict_columns = [conflict_columns]
         
         conflict_clause = ", ".join(f'"{col}"' for col in conflict_columns)
         
-        # Prepare the SQL statement
         placeholders = ", ".join(["%s"] * len(columns))
         update_set = ", ".join([f'"{col}" = EXCLUDED."{col}"' for col in columns if col not in conflict_columns])
         
@@ -57,7 +55,6 @@ def upsert_values(data: List[Dict[str, Any]], columns: List[str], table: str, sc
         DO UPDATE SET {update_set}
         """
         
-        # Convert list of dicts to list of tuples, handling missing keys
         data_tuples = []
         for row in data:
             try:
@@ -67,11 +64,9 @@ def upsert_values(data: List[Dict[str, Any]], columns: List[str], table: str, sc
                 logger.warning(f"Problematic row: {row}")
                 continue
         
-        # Log the SQL statement for debugging (optional)
         logger.info(f"SQL statement: {insert_stmt}")
         logger.info(f"Total rows to upsert: {len(data_tuples)}")
         
-        # Execute the statement in batches
         total_upserted = 0
         for i in range(0, len(data_tuples), batch_size):
             batch = data_tuples[i:i+batch_size]
@@ -133,13 +128,11 @@ def run_query(query: str) -> List[Dict[str, Any]]:
         logger.info(f"Executing query: {query}")
         cur.execute(query)
         
-        # Get column names
         columns = [desc[0] for desc in cur.description]
         
-        # Fetch all rows in batches
         result = []
         while True:
-            rows = cur.fetchmany(1000)  # Fetch 1000 rows at a time
+            rows = cur.fetchmany(1000)
             if not rows:
                 logger.info(f"Fetched all batches.")
                 break
@@ -167,6 +160,6 @@ def json_serialize(obj):
     """
     if isinstance(obj, Decimal):
         return float(obj)
-    if isinstance(obj, date):
+    if isinstance(obj, (datetime, date)):
         return obj.isoformat()
     raise TypeError(f"Type {type(obj)} not serializable")

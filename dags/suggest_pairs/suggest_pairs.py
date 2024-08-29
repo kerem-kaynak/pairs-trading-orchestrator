@@ -19,8 +19,8 @@ def compute_and_upsert_suggested_pairs_task():
             SELECT
                 ticker,
                 close AS price,
-                (TO_TIMESTAMP(unix_msec_timestamp / 1000.0) AT TIME ZONE 'UTC')::DATE AS date
-            FROM raw.etf_daily_ohlc;
+                date
+            FROM gold.etf_daily_ohlc;
         """
         price_series = run_query(query)
         if price_series:
